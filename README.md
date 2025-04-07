@@ -1,0 +1,7 @@
+## Andmetüüpid
+1. **teksti või sümboolid** - VARCHAR(50), CHAR(3), TEXT
+Näited: nimi, nimetus, telefoniNumber, isikuood - VARCHAR(11)
+2. **ARVULISED** - int, bigint, smallint, decimal(5,2) -5 kokku, 2- peale komat
+Näited: Vanus, palk, temperatuur, kaal, pikkus jne
+3. **Kuupäeva** - DATE, TIME, date/time
+4. **Loogilised** - bit, bool, boolean
