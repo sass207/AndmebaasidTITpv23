@@ -31,7 +31,7 @@ VALUES ('Andrei', 'Ivanov', '2005-12-5', 'Tallinn', 1),
 ('Peeter', 'Uus', '2000-10-5', 'Tallinn', 0);
 
 CREATE TABLE ryhm(
-ryhmID int not null primary key identity(1,1),
+ryhmID int not null primary key AUTO_INCREMENT,
 ryhm varchar(10) unique,
 osakond varchar(20)
 );
