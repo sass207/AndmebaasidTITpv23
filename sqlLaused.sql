@@ -1,14 +1,11 @@
--- SQL Server Management Stuudio
--- Login
+-- xampp control panel(start apache, start mysql)
+-- conect to localhost
 
 -- (localdb)\MSSQLLocalDB
 
---Authentification: Windows Auth - Admini Õigused LocalHostis
-
---Authentification: SQL Server Auth - Varem Loodud Kasutajad
-
---New Query
-
+--Authentification: kasutaja nimi -root
+-- parool ei ole
+--SQL;
 CREATE DATABASE KoltsinTITpv23;
 --OBJECT EXPLORER ON VAJA PIDEVALT UUENDADA KÄASITI
 
