@@ -1,0 +1,15 @@
+--Sõnad--
+Andmed - Данные
+Haldus - Администрирование
+Andmebaaside haldussüsteemid - Система Управления БД - SQL Server /mariaDB/phmMyAdmin/localhost
+Tabel - Таблица
+Rida - Строка=Запись
+Veerg=Väli - Столбец=Поле
+Päring - Запрос
+Käivita - Запустить
+Värsenda=Uuenda - Обновить
+Laadi Alla - Скачать
+Laadi Üles - Загрузить
+Loo - Создавать
+PRIMARY KEY - Primaarne Võti - Первичный Ключ
+FOREIGN KEY - Välis Võti - Внешний/Вторичный Ключ
