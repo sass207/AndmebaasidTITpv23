@@ -68,7 +68,7 @@ FROM opilane1 o JOIN ryhm r
 ON o.ryhmID=r.ryhmID;
 
 CREATE TABLE hinne(
-hinneID int primary key identity(1,1),
+hinneID int primary key AUTO_INCREMENT,
 hinne int,
 opilaneID int,
 oppeaine varchar(50)
