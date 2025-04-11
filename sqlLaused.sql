@@ -83,3 +83,28 @@ Values(7, 'andmebaasid', 3);
 select * from hinne;
 
 SELECT o.perenimi, h.hinne FROM opilane1 o JOIN hinne h ON o.opilaneID=h.opilaneID;
+
+CREATE TABLE opetaja(
+opetajaID int PRIMARY KEY AUTO_INCREMENT,
+nimi varchar(50),
+perenimi varchar(50),
+telefon varchar(50)
+);
+
+DROP TABLE opetaja;
+
+ALTER TABLE ryhm
+ADD opetajaID int;
+
+ALTER TABLE ryhm
+ADD foreign key (opetajaID) references opetaja(opetajaID);
+
+select * from ryhm;
+
+Select * from opetaja;
+
+INSERT INTO opetaja(nimi, perenimi, telefon)
+Values('mikhail', 'agapov', '5634 8329');
+
+INSERT INTO ryhm(ryhm, osakond, opetajaID)
+Values('TITpv23', 'IT', 1);
