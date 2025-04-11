@@ -1,11 +1,9 @@
---https://meet.google.com/yvy-omdj-vfr
 -- SQL kommentaar
--- SQL Server Managment Stuudio
+-- Xampp
 -- connect to
 --(localdb)\mssqllocaldb
---Authentification: Windows Auth  - admini õigused localhostis
---Authentification: SQL Server Auth - varem loodud kasutajad
---New Query
+--Authentification:kasutajanimi root
+--parool ei ole
 CREATE DATABASE KoltsinTIT;
 --Object Explorer on vaja pidevalt uuendada käsitsi!
 USE KoltsinTIT;
@@ -14,7 +12,7 @@ DROP DATABASE KoltsinTIT;
 
 --tabeli loomine
 CREATE TABLE opilane1(
-opilaneID int Primary Key identity(1,1),
+opilaneID int PRIMARY KEY AUTO_INCREMENT,
 eesnimi varchar(25),
 perenimi varchar(30) Unique,
 synniaeg date,
@@ -33,10 +31,11 @@ VALUES ('Andrei', 'Ivanov', '2005-12-5', 'Tallinn', 1),
 ('Peeter', 'Uus', '2000-10-5', 'Tallinn', 0);
 
 CREATE TABLE ryhm(
-ryhmID int not null primary key identity(1,1),
+ryhmID int not null PRIMARY KEY identity(1,1),
 ryhm varchar(10) unique,
 osakond varchar(20)
 );
+
 INSERT INTO ryhm(ryhm, osakond)
 Values('TITpv24', 'IT'),('KRRpv23','Rätsepp');
 
@@ -70,7 +69,7 @@ FROM opilane1 o JOIN ryhm r
 ON o.ryhmID=r.ryhmID;
 
 CREATE TABLE hinne(
-hinneID int primary key identity(1,1),
+hinneID int PRIMARY KEY identity(1,1),
 hinne int,
 opilaneID int,
 oppeaine varchar(50)
@@ -85,3 +84,28 @@ Values(7, 'andmebaasid', 3);
 select * from hinne;
 
 SELECT o.perenimi, h.hinne FROM opilane1 o JOIN hinne h ON o.opilaneID=h.opilaneID;
+
+CREATE TABLE opetaja(
+opetajaID int PRIMARY KEY identity(1,1),
+nimi varchar(50),
+perenimi varchar(50),
+telefon varchar(50)
+);
+
+DROP TABLE opetaja;
+
+ALTER TABLE ryhm
+ADD opetajaID int;
+
+ALTER TABLE ryhm
+ADD foreign key (opetajaID) references opetaja(opetajaID);
+
+select * from ryhm;
+
+Select * from opetaja;
+
+INSERT INTO opetaja(nimi, perenimi, telefon)
+Values('mikhail', 'agapov', '5634 8329');
+
+INSERT INTO ryhm(ryhm, osakond, opetajaID)
+Values('TITpv23', 'IT', 1);
