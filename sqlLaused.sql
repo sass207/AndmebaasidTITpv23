@@ -1,20 +1,35 @@
-CREATE DATABASE KoltsinTIT;
+-- SQL Server Management Stuudio
+-- Login
 
-USE KoltsinTIT;
+-- (localdb)\MSSQLLocalDB
+
+--Authentification: Windows Auth - Admini Õigused LocalHostis
+
+--Authentification: SQL Server Auth - Varem Loodud Kasutajad
+
+--New Query
+
+CREATE DATABASE KoltsinTITpv23;
+--OBJECT EXPLORER ON VAJA PIDEVALT UUENDADA KÄASITI
+
+USE KoltsinTITpv23;
+--TABELI LOOMINE
 
 CREATE TABLE opilanes(
 opilaneID int Primary Key identity(1,1),
 eesnimi varchar(25),
 perenimi varchar(30) Unique,
-synniaeg date,
+synicalaeg date,
 aadress TEXT,
 opilaskodu bit
 );
 SELECT * FROM opilanes;
+--TABELI KUSTUMINE
 
 DROP table opilanes;
+--ANDMETE LISAMINE TABELISSE
 
-INSERT INTO opilanes(eesnimi, perenimi, synniaeg, aadress, opilaskodu)
-VALUES ('Ilja', 'Gershkevitch', '2005-03-15', 'Tallinn', 1),
-('Jaramir', 'Gutsuljak', '2005-03-15', 'Tallinn', 1),
-('Aleksandr', 'Koltsin', '2005-03-15', 'Maardu', 1)
+INSERT INTO opilanes(eesnimi, perenimi, synicalaeg, aadress, opilaskodu)
+VALUES ('Mark', 'Levin', '2000-12-5', 'Tallinn', 1),
+('Andrei', 'Astora', '897-3-6', 'DarkSouls', 0),
+('Mati', 'Kask', '2005-11-2', 'Tartu', 0);
