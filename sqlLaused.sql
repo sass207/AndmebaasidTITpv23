@@ -77,7 +77,7 @@ oppeaine varchar(50)
 );
 
 ALTER TABLE hinne
-ADD foreign key (opilaneID) references opilane(opilaneID);
+ADD foreign key (opilaneID) references opilane1(opilaneID);
 
 INSERT INTO hinne(opilaneID, oppeaine, hinne)
 Values(7, 'andmebaasid', 3);
