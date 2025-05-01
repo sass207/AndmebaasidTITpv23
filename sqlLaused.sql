@@ -1,111 +1,122 @@
--- SQL kommentaar
--- Xampp
--- connect to
---(localdb)\mssqllocaldb
---Authentification:kasutajanimi root
---parool ei ole
-CREATE DATABASE KoltsinTIT;
---Object Explorer on vaja pidevalt uuendada käsitsi!
-USE KoltsinTIT;
+CREATE DATABASE aleksandrtitpv23;
+--OBJECT EXPLORER ON VAJA PIDEVALT UUENDADA KÄASITI
 
-DROP DATABASE KoltsinTIT;
+USE aleksandrtitpv23;
+--TABELI LOOMINE
 
---tabeli loomine
-CREATE TABLE opilane1(
-opilaneID int PRIMARY KEY AUTO_INCREMENT,
-eesnimi varchar(25),
-perenimi varchar(30) Unique,
-synniaeg date,
-aadress TEXT,
-opilaskodu bit
+CREATE TABLE Opilane(
+OpilaneID int Primary Key identity(1,1),
+Eesnimi varchar(25),
+Perenimi varchar(30) Unique,
+Synicalaeg date,
+Aadress TEXT,
+Opilaskodu bit
 );
-SELECT * FROM opilane1;
 
---tabeli kustutamine
-DROP table opilane1;
+--kasutamine seos tabelite vahel - JOIN
+SELECT * FROM Opilane JOIN ryhm ON opilane.ryhmID=ryhm.ryhmID;
+--TABELI KUSTUMINE
 
---andmete lisamine tabelisse
-INSERT INTO opilane1(eesnimi, perenimi, synniaeg, aadress, opilaskodu)
-VALUES ('Andrei', 'Ivanov', '2005-12-5', 'Tallinn', 1),
-('Mati', 'Kask', '2003-12-5', 'Tallinn', 0),
-('Peeter', 'Uus', '2000-10-5', 'Tallinn', 0);
+DROP table opetaja;
+--ANDMETE LISAMINE TABELISSE
 
+INSERT INTO Opilane(Eesnimi, Perenimi, Synicalaeg, Aadress, Opilaskodu)
+VALUES ('Mark', 'Levin', '2000-12-5', 'Tallinn', 1),
+('Andrei', 'Astora', '1897-3-6', 'DarkSouls', 0),
+('Mati', 'Kask', '2005-11-2', 'Tartu', 0);
+
+-- tabel Ruhm
 CREATE TABLE ryhm(
-ryhmID int not null PRIMARY KEY identity(1,1),
+ryhmID int not null primary key identity(1,1),
 ryhm varchar(10) unique,
 osakond varchar(20)
 );
-
 INSERT INTO ryhm(ryhm, osakond)
-Values('TITpv24', 'IT'),('KRRpv23','Rätsepp');
+Values ('TiTpv24', 'IT'),('KRRpv23','Rätsepp');
 
 Select * from ryhm;
---lisame uus veerg RyhmID tabelisse opilane
-ALTER TABLE opilane1 ADD ryhmID int;
 
-Select *  from opilane1;
+-- lisame uus veerg RyhmID tabelisse opilane
+ALTER TABLE Opilane ADD ryhmID int;
 
---lisame foreign key veergule ryhmID mis on seotud
---tabeliga ryhm ja veerguga ryhmID
-ALTER TABLE opilane1 
-Add foreign key (ryhmID) references ryhm(ryhmID);
+--lisame foreign key
+ALTER TABLE Opilane ADD foreign key (ryhmID) references ryhm(ryhmID)
 
 --foreign key kontroll
-INSERT INTO opilane1
-(eesnimi, perenimi, synniaeg, aadress, opilaskodu, ryhmID)
-VALUES ('Andrei', 'Ivanovssss', '2005-12-5', 'Tallinn', 1, 3);
-
-SELECT * FROM opilane1;
---kasutame seos tabelite vahel - JOIN
-SELECT * FROM opilane1 JOIN ryhm
-ON opilane1.ryhmID=ryhm.ryhmID;
-
-SELECT opilane1.perenimi, ryhm.ryhm FROM opilane1 JOIN ryhm
-ON opilane1.ryhmID=ryhm.ryhmID;
+INSERT INTO Opilane(Eesnimi, Perenimi, Synicalaeg, Aadress, Opilaskodu, ryhmID)
+VALUES ('Mark', 'MegaSigma', '2000-12-5', 'Tallinn', 1, 1)
 
 --lihtsaim vaade
-SELECT o.perenimi, r.ryhm, o.aadress
-FROM opilane1 o JOIN ryhm r
-ON o.ryhmID=r.ryhmID;
+SELECT o.perenimi, r.ryhm, o.aadress FROM Opilane o JOIN ryhm r ON o.ryhmID=r.ryhmID;
 
+--tabel hinne
 CREATE TABLE hinne(
-hinneID int PRIMARY KEY identity(1,1),
+hinneID INT NOT NULL PRIMARY KEY Identity (1,1),
+OpilaneID INT,
 hinne int,
-opilaneID int,
-oppeaine varchar(50)
+opiaine VARCHAR(20),
 );
 
-ALTER TABLE hinne
-ADD foreign key (opilaneID) references opilane1(opilaneID);
+Select * from hinne;
 
-INSERT INTO hinne(opilaneID, oppeaine, hinne)
-Values(7, 'andmebaasid', 3);
+ALTER TABLE hinne ADD foreign key (opilaneID) references Opilane(OpilaneID);
 
+INSERT INTO hinne(OpilaneID, opiaine, hinne)
+Values (5, 'Arvutivõrgud', 5 ),(9,'Linux', 3 );
 select * from hinne;
-
-SELECT o.perenimi, h.hinne FROM opilane1 o JOIN hinne h ON o.opilaneID=h.opilaneID;
+SELECT o.Perenimi, h.hinne FROM Opilane o JOIN hinne h ON o.OpilaneID=h.OpilaneID;
 
 CREATE TABLE opetaja(
-opetajaID int PRIMARY KEY identity(1,1),
-nimi varchar(50),
-perenimi varchar(50),
+OpetajaID INT NOT NULL PRIMARY KEY,
+nimi varchar(20),
+perenimi varchar(20) unique,
 telefon varchar(50)
 );
 
-DROP TABLE opetaja;
-
-ALTER TABLE ryhm
-ADD opetajaID int;
-
-ALTER TABLE ryhm
-ADD foreign key (opetajaID) references opetaja(opetajaID);
-
-select * from ryhm;
-
 Select * from opetaja;
 
+ALTER TABLE ryhm ADD OpetajaID int;
+ALTER TABLE ryhm ADD foreign key (OpetajaID) references opetaja(OpetajaID)
 INSERT INTO opetaja(nimi, perenimi, telefon)
-Values('mikhail', 'agapov', '5634 8329');
+VALUES ('Mikhail', 'Agapov', '12497'), ('Nikita', 'Podkopaev', '41774');
 
-INSERT INTO ryhm(ryhm, osakond, opetajaID)
-Values('TITpv23', 'IT', 1);
+CREATE DATABASE kasutajatit;
+
+USE kasutajatit;
+
+CREATE TABLE kontroll2(
+id int primary key identity(1,1),
+test varchar(25));
+
+INSERT INTO kontroll2(test)
+
+VALUES('kontroll test');
+
+SELECT * FROM kontroll;
+
+SELECT * FROM kontroll2;
+
+--loome kasutaja LOGIN kaudu
+--määrame SQL käskuga opilane õigused
+--luubamine
+GRANT INSERT ON kontroll TO opilaneAleksandr;
+
+GRANT DELETE ON kontroll2 TO opilaneAleksandr;
+
+--keelamine
+DENY UPDATE ON kontroll TO opilaneAleksandr;
+
+DENY UPDATE ON kontroll2 TO opilaneAleksandr;
+
+--kasutaja õiguste kontroll
+SELECT * FROM kontroll;
+
+SELECT * FROM kontroll2;
+
+INSERT INTO kontroll(test)
+
+VALUES('kontroll test');
+
+DELETE FROM kontroll2;
+
+UPDATE kontroll set test='uus kontrol';
