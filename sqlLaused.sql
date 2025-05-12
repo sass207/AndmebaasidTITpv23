@@ -138,7 +138,7 @@ CREATE TABLE praktikajuhendaja (
 praktikajuhendajaID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 eesnimi VARCHAR(50),
 perekonnanimi VARCHAR(50),
-synicalaeg DATE,
+synniaeg DATE,
 telefon VARCHAR(50)
 );
 
@@ -203,4 +203,85 @@ ORDER BY PraktikaKogemus DESC;
 
 ALTER TABLE praktikajuhendaja
 ADD palk DECIMAL(10, 2);
---WIP
+
+CREATE TABLE praktikabaaslogi (
+ID INT PRIMARY KEY IDENTITY(1,1),
+kasutaja VARCHAR(25),
+aeg VARCHAR(25),
+tegevus VARCHAR (25),
+andmed VARCHAR (255)
+);
+
+CREATE TRIGGER praktikabaastrigger
+ON praktikabaas
+FOR INSERT
+AS
+INSERT INTO praktikabaaslogi(kasutaja, aeg, tegevus, andmed)
+SELECT
+SYSTEM_USER,
+'praktikabaas on lisatud',
+GETDATE(),
+CONCAT(inserted.firmaID, ', ', inserted.praktikatingimused, ', ', inserted.arvutiprogramm, ', ', inserted.praktikajuhendajaID)
+FROM inserted;
+
+select * from praktikabaas;
+
+--kontroll
+
+INSERT INTO praktikabaas(firmaID, praktikatingimused, arvutiprogramm, praktikajuhendajaID)
+VALUES (5,' 5 kuud, täistööajaga', 'unity', 5);
+
+select * from praktikabaaslogi;
+
+--uuendamine trigger
+
+CREATE TRIGGER praktikabaasUuendamine
+ON praktikabaas
+FOR UPDATE
+AS
+INSERT INTO praktikabaaslogi(kasutaja, aeg, tegevus, andmed)
+SELECT
+SYSTEM_USER,
+'praktikabaas on uuendatud',
+GETDATE(),
+CONCAT(
+'vana praktikabaas info - ', deleted.firmaID, ', ', deleted.praktikatingimused, ', ', deleted.arvutiprogramm, ', ', deleted.praktikajuhendajaID,
+', uus praktikabaas info - ', inserted.firmaID, ', ', inserted.praktikatingimused, ', ', inserted.arvutiprogramm, ', ', inserted.praktikajuhendajaID
+)
+FROM deleted INNER JOIN inserted
+ON deleted.praktikabaasID=inserted.praktikabaasID;
+
+--kontroll
+
+update praktikabaas
+set praktikatingimused = 'crazy', arvutiprogramm = 'vegas pro'
+where praktikabaasID = 15;
+
+select * from praktikabaaslogi;
+
+CREATE TRIGGER trg_Check_Juhendaja_Synniaeg
+ON praktikajuhendaja
+INSTEAD OF INSERT
+AS
+BEGIN
+IF EXISTS (SELECT 1 FROM inserted WHERE synniaeg > GETDATE())
+BEGIN
+RAISERROR('Sünniaeg ei tohi olla tulevikus.', 16, 1);
+END
+ELSE
+BEGIN
+INSERT INTO praktikajuhendaja (eesnimi, perekonnanimi, synniaeg, telefon)
+SELECT eesnimi, perekonnanimi, synniaeg, telefon
+FROM inserted;
+END
+END;
+
+--kontroll
+
+INSERT INTO praktikajuhendaja(eesnimi,perekonnanimi,synniaeg,telefon)
+VALUES ('Corbet','Tuminelli','2025-03-19',7118158246);
+
+deny select on praktikabaaslogi to sigma;
+grant select on firma to sigma;
+grant select, update on praktikabaas to sigma;
+grant select on praktikajuhendaja to sigma;
