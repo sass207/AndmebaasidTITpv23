@@ -167,11 +167,11 @@ VALUES ('Corbet','Tuminelli','1968-05-19',7118158246),
 ('Sephira','Thayre','1954-09-16',7127249272);
 
 INSERT INTO praktikabaas(firmaID,praktikatingimused,arvutiprogramm,praktikajuhendajaID)
-VALUES (1,' 6 kuud, täistööajaga', 'Microsoft Excel', 3),
-(2,' 3 kuud, osalise tööajaga', 'Adobe Photoshop', 4),
-(3, '1-aastane kestus, täistööajaga', 'AutoCAD', 5),
-(4, '6 kuud kestus, täistööajaga', 'Python', 6),
-(5, '3 kuud, osalise tööajaga', 'JavaScript', 7);
+VALUES (1,' 6 kuud, täistööajaga', 'Microsoft Excel', 1),
+(2,' 3 kuud, osalise tööajaga', 'Adobe Photoshop', 2),
+(3, '1-aastane kestus, täistööajaga', 'AutoCAD', 3),
+(4, '6 kuud kestus, täistööajaga', 'Python', 4),
+(5, '3 kuud, osalise tööajaga', 'JavaScript', 5);
 
 SELECT * FROM firma
 WHERE firmanimi LIKE '%a%'
